@@ -4,12 +4,15 @@
   "description": "Tools for Chunithm International",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build": "tsc"
   },
   "author": "Muhammad Irham Rasyidi Bin Zainal",
   "license": "ISC",
   "devDependencies": {
-    "tslint": "^5.12.1",
+    "@types/express": "^4.17.13",
+    "tslint": "^5.20.1",
     "typescript": "^3.9.10"
-  }
+  },
+  "dependencies": {}
 }
