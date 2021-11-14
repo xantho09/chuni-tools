@@ -26,14 +26,56 @@ const extractHighScores = (document: Document, difficulty: "MAS" | "EXP") => {
   return output;
 };
 
-const extractRecentScores = (document: Document) => {};
+const extractRecentScores = (document: Document) => {
+  const output: Score[] = [];
+  const scoreElements = [...document.getElementsByClassName("play_data_side")];
+
+  for (const scoreElement of scoreElements) {
+    const difficultyDiv =
+      scoreElement.getElementsByClassName("play_track_result")[0];
+    const difficultyImgSource = (difficultyDiv.children[0] as HTMLImageElement)
+      .src;
+
+    let difficulty: "MAS" | "EXP";
+    if (difficultyImgSource.includes("master")) {
+      difficulty = "MAS";
+    } else if (difficultyImgSource.includes("expert")) {
+      difficulty = "EXP";
+    } else {
+      // Skipping ADV and BAS. Otherwise, possibly World's End
+      continue;
+    }
+
+    const songTitle = (
+      scoreElement.getElementsByClassName(
+        "play_musicdata_title"
+      )[0] as HTMLElement
+    ).innerText;
+
+    const scoreString = (
+      scoreElement.getElementsByClassName(
+        "play_musicdata_score_text"
+      )[0] as HTMLElement
+    ).innerText;
+    const score = parseInt(scoreString.substring(6).replaceAll(",", ""));
+
+    output.push({
+      songTitle,
+      difficulty,
+      score,
+    });
+  }
+
+  return output;
+};
 
 const fetchPage = async (url: string) => {
   const response = await fetch(url, { method: "GET", credentials: "include" });
   const htmlAsText = await response.text();
 
   const parser = new DOMParser();
-  return parser.parseFromString(htmlAsText, "text/html");
+  const output = parser.parseFromString(htmlAsText, "text/html");
+  return output;
 };
 
 export const fetchHighScores = async () => {
