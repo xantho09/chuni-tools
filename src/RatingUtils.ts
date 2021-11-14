@@ -25,11 +25,11 @@ const calculateSongRating = ({ songTitle, score, difficulty }: Score) => {
   if (score >= 1_007_500) {
     rating = chartConstant + 2.0;
   } else if (score >= 1_005_000) {
-    rating = chartConstant + 1.5;
+    rating = chartConstant + 1.5 + (score - 1_005_000) * 0.5;
   } else if (score >= 1_000_000) {
-    rating = chartConstant + 1.0;
+    rating = chartConstant + 1.0 + (score - 1_000_000) * 0.5;
   } else if (score >= 975_000) {
-    rating = chartConstant;
+    rating = chartConstant + (score - 975_000) * 0.5;
   } else if (score >= 925_000) {
     rating = chartConstant - 3.0;
   } else if (score >= 900_000) {
